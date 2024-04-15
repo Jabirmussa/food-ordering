@@ -2,32 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+html::-webkit-scrollbar {
+    width: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html::-webkit-scrollbar-thumb {
+    background: #f13a01;
+}
+section.hero{
+    @apply grid;
+    grid-template-columns: .4fr .6fr;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.top-10{
+    top: 21.5rem;
+    filter: drop-shadow(rgb(175, 173, 173) 1px 4px 10px);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+input[type="email"], 
+input[type="text"],
+input[type="password"]{
+    @apply block my-2 w-full rounded-xl;
+    @apply border p-2 border-gray-300 bg-gray-100;
+}
+button{
+    @apply block w-full text-gray-700 font-semibold;
+    @apply border border-gray-300 rounded-xl px-6 py-2;
+}
+button[type="submit"], button.submit{
+    @apply border-0 bg-primary text-white;
 }

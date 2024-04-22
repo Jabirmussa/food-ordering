@@ -1,18 +1,19 @@
-import {User} from "/src/app/models/User";
+import { User } from "/src/app/models/User";
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
-export async function POST(req){
+export async function POST(req) {
     const body = await req.json();
-    const mongoURI = process.env.MONGO_URL;
-    mongoose.connect(mongoURI, { 
-      useNewUrlParser: true, 
-      useUnifiedTopology: true, 
-      useFindAndModify: false 
-  },)
-      .then(() => {
-        console.log('Connected to MongoDB');
-      })
-      .catch(err => console.error('Error connecting to MongoDB:', err));
-    const createdUser = await User.create(body);
-    return Response.json(createdUser);
+    mongoose.connect(process.env.MONGO_URL);
+        const pass = body.password;
+    if (!pass?.length || pass.length < 5) {
+        new Error('password must be at least 5 characters');
+    }
+
+    const notHashedPassword = pass;
+    const salt = bcrypt.genSaltSync(10);
+    body.password = bcrypt.hashSync(notHashedPassword, salt);
+
+    const createUser = await User.create(body);
+    return Response.json(createUser);
 }
